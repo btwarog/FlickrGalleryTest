@@ -1,6 +1,8 @@
 package com.example.flickrgallery.screen.photosearch.model;
 
-public class Photo {
+import java.io.Serializable;
+
+public class Photo implements Serializable {
     private String title;
     private String link;
     private String media;

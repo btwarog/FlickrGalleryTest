@@ -1,27 +1,21 @@
 package com.example.flickrgallery.screen.photosearch;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.flickrgallery.R;
-import com.example.flickrgallery.base.Cancelable;
 import com.example.flickrgallery.base.activity.RetainableActivity;
 import com.example.flickrgallery.base.presenterfactory.RetainablePresenterFactory;
-import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
-import com.example.flickrgallery.screen.photosearch.action.LoadPhotosActionFake;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
 import com.example.flickrgallery.screen.photosearch.presenter.PhotoSearchPresenter;
 import com.example.flickrgallery.screen.photosearch.presenter.PhotoSearchPresenterFactory;
 import com.example.flickrgallery.screen.photosearch.provider.Provider;
-import com.example.flickrgallery.util.ThreadUtils;
+import com.example.flickrgallery.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter, PhotoSearchView> implements PhotoSearchView {
     TextView error;
@@ -53,8 +47,14 @@ public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter
 
     @Override
     public void showPhotos(List<Photo> photoList) {
+        String photosStr = StringUtils.buildListWithSeparator(photoList, new StringUtils.StringMaker<Photo>() {
+            @Override
+            public String makeString(Photo item) {
+                return item.getTitle();
+            }
+        });
         test.setVisibility(View.VISIBLE);
-        test.setText("PHOTOS");
+        test.setText(photosStr);
     }
 
     @Override

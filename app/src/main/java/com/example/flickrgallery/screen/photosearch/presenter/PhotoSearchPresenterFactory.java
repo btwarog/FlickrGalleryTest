@@ -7,8 +7,11 @@ import com.example.flickrgallery.screen.photosearch.PhotoSearchView;
 import com.example.flickrgallery.screen.photosearch.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
+import com.example.flickrgallery.util.SerializableArrayUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PhotoSearchPresenterFactory extends RetainablePresenterFactory<PhotoSearchPresenter, PhotoSearchView> {
 
@@ -57,7 +60,9 @@ public class PhotoSearchPresenterFactory extends RetainablePresenterFactory<Phot
         presenter.state.errorMessage = bundle.getString("errorMessage", null);
         presenter.state.tags = bundle.getString("tags", null);
         presenter.state.isLoading = bundle.getBoolean("isLoading", false);
-        presenter.state.loadedPhotos = bundle.getBoolean("loadedPhotos", false) ? new ArrayList<Photo>() : null;
+        if(bundle.containsKey("loadedPhotos")) {
+            presenter.state.loadedPhotos = (List<Photo>) bundle.getSerializable("loadedPhotos");
+        }
         return presenter;
     }
 
@@ -67,7 +72,11 @@ public class PhotoSearchPresenterFactory extends RetainablePresenterFactory<Phot
         bundle.putString("errorMessage", presenter.state.errorMessage);
         bundle.putString("tags", presenter.state.tags);
         bundle.putBoolean("isLoading", presenter.state.isLoading);
-        bundle.putBoolean("loadedPhotos", presenter.state.loadedPhotos != null);
+        if(presenter.state.loadedPhotos != null) {
+            Serializable serializable = SerializableArrayUtil.asSerializableArrayList(presenter.state.loadedPhotos);
+            bundle.putSerializable("loadedPhotos", serializable);
+        }
+
         return bundle;
     }
 }
