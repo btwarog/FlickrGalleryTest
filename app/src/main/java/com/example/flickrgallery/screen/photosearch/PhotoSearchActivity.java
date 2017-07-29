@@ -2,7 +2,10 @@ package com.example.flickrgallery.screen.photosearch;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,6 +24,7 @@ public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter
     TextView error;
     TextView test;
     ProgressBar progressBar;
+    EditText search;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +33,28 @@ public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter
         Binding.bind(this);
 
         init(savedInstanceState, this);
+
+        initSearchByTags();
+    }
+
+    private void initSearchByTags() {
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId , KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    performSearch(textView.getText().toString());
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+    }
+
+    private void performSearch(String searchInput) {
+        String[] splits = StringUtils.splitBySpace(searchInput);
+        String commaSeparatedTags = StringUtils.joinWithDelimiter(splits, ",");
+        getPresenter().searchForTags(commaSeparatedTags);
     }
 
     @Override

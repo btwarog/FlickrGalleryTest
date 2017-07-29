@@ -45,6 +45,13 @@ public class PhotoSearchPresenter extends RetainablePresenter<PhotoSearchView> {
         }
     }
 
+    public void searchForTags(String tags) {
+        if(loadPhotosCancelable != null) {
+            loadPhotosCancelable.cancel();
+        }
+        startLoading(tags);
+    }
+
     private void startLoading(String tags) {
         getView().showLoading(true);
         state.isLoading = true;

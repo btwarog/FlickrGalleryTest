@@ -1,6 +1,9 @@
 package com.example.flickrgallery.util;
 
+import android.text.TextUtils;
+
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StringUtils {
@@ -78,5 +81,31 @@ public class StringUtils {
 
     public interface StringMaker<T> {
         String makeString(T item);
+    }
+
+    public static String[] splitBySpace(String stringToSplit) {
+        String[] splited = stringToSplit.split("\\s+");
+        ArrayList<String> splitedFiltered = new ArrayList<>();
+        for (String s : splited) {
+            if(!s.isEmpty()) {
+                splitedFiltered.add(s);
+            }
+        }
+        splited = new String[splitedFiltered.size()];
+        for (int i = 0; i < splitedFiltered.size(); i++) {
+            splited[i] = splitedFiltered.get(i);
+        }
+        return splited;
+    }
+
+    public static String joinWithDelimiter(String[] strings, String delimiter) {
+
+        StringBuilder sb = new StringBuilder();
+        for (String n : strings) {
+            if (sb.length() > 0) sb.append(delimiter);
+            sb.append(n);
+        }
+
+        return sb.toString();
     }
 }
