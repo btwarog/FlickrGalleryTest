@@ -16,6 +16,7 @@ import com.example.flickrgallery.screen.photosearch.action.LoadPhotosActionFake;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
 import com.example.flickrgallery.screen.photosearch.presenter.PhotoSearchPresenter;
 import com.example.flickrgallery.screen.photosearch.presenter.PhotoSearchPresenterFactory;
+import com.example.flickrgallery.screen.photosearch.provider.Provider;
 import com.example.flickrgallery.util.ThreadUtils;
 
 import java.util.ArrayList;
@@ -59,13 +60,8 @@ public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter
     @Override
     protected RetainablePresenterFactory<PhotoSearchPresenter, PhotoSearchView> providePresenterFactory() {
         return PhotoSearchPresenterFactory.getInstance(
-                new LoadPhotosActionFake(),
-                new ThrowableTranslator() {
-                    @Override
-                    public String translateThrowable(Throwable throwable) {
-                        return "fake error";
-                    }
-                }
+                Provider.provideLoadPhotosAction(),
+                Provider.provideThrowableTranslator()
         );
     }
 }
