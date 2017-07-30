@@ -18,10 +18,14 @@ import com.example.flickrgallery.screen.photosearch.model.Photo;
 public class ProviderImpl implements Provider {
     static ImageLoader imageLoaderInstance = null;
 
+    public InputStreamProvider provideInputStreamProvider() {
+        return new InputStreamProvider();
+    }
+
     @Override
     public LoadPhotosAction provideLoadPhotosAction() {
         return new LoadPhotosActionImpl(
-                new DataStreamProviderForTags(new InputStreamProvider()),
+                new DataStreamProviderForTags(provideInputStreamProvider()),
                 new DataInputStreamDecoderImpl()
         );
     }
@@ -46,7 +50,7 @@ public class ProviderImpl implements Provider {
     public ImageLoader provideImageLoader() {
         if (imageLoaderInstance == null) {
             imageLoaderInstance = new ImageLoaderFromUrl(
-                    new DataStreamProviderImpl(),
+                    new DataStreamProviderImpl(provideInputStreamProvider()),
                     new BitmapDecoderImpl()
             );
         }

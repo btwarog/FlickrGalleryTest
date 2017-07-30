@@ -6,7 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class DataStreamProviderImpl implements DataStreamProvider {
-    InputStreamProvider provider = new InputStreamProvider();
+    private final InputStreamProvider provider;
+
+    public DataStreamProviderImpl(InputStreamProvider provider) {
+        this.provider = provider;
+    }
+
     @Override
     public InputStream provideInputStream(String url) throws IOException {
         return provider.provideInputStreamForUrl(url);
