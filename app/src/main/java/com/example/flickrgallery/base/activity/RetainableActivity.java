@@ -26,6 +26,7 @@ public abstract class RetainableActivity<T extends RetainablePresenter<V>, V ext
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        presenter.releaseView();
         if (isFinishing()) {
             presenterFactory.destroyretainablePresenter(presenter);
         }

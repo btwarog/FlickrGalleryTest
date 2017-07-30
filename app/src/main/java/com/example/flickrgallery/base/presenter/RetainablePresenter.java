@@ -14,4 +14,8 @@ public abstract class RetainablePresenter<V extends BaseView> extends BasePresen
     }
 
     protected abstract void restore();
+
+    public void releaseView() {
+        setView(null);
+    }
 }

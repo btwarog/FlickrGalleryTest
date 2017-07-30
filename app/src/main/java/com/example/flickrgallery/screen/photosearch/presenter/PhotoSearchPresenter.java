@@ -7,6 +7,7 @@ import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
 import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
 import com.example.flickrgallery.screen.photosearch.view.PhotoSearchView;
+import com.example.flickrgallery.screen.photosearch.view.PhotoSearchViewDummy;
 
 import java.util.List;
 
@@ -93,6 +94,14 @@ public class PhotoSearchPresenter extends RetainablePresenter<PhotoSearchView> {
         boolean success = navigator.openInGallery(photo);
         if(!success) {
             getView().showFailedOpenGallery();
+        }
+    }
+
+    public PhotoSearchView getView() {
+        if(super.getView() != null) {
+            return super.getView();
+        } else {
+            return PhotoSearchViewDummy.getInstance();
         }
     }
 
