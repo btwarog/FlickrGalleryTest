@@ -2,27 +2,33 @@ package com.example.flickrgallery.screen.photosearch;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.flickrgallery.R;
 import com.example.flickrgallery.base.activity.RetainableActivity;
-import com.example.flickrgallery.base.presenterfactory.RetainablePresenterFactory;
+import com.example.flickrgallery.base.presenter.RetainablePresenterFactory;
+import com.example.flickrgallery.screen.photosearch.adapter.PhotosListAdapter;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
 import com.example.flickrgallery.screen.photosearch.presenter.PhotoSearchPresenter;
 import com.example.flickrgallery.screen.photosearch.presenter.PhotoSearchPresenterFactory;
-import com.example.flickrgallery.screen.photosearch.provider.Provider;
+import com.example.flickrgallery.injection.Injector;
+import com.example.flickrgallery.screen.photosearch.view.PhotoSearchView;
 import com.example.flickrgallery.util.StringUtils;
 
 import java.util.List;
 
 public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter, PhotoSearchView> implements PhotoSearchView {
     TextView error;
-    TextView test;
+    Button retry;
+    RecyclerView photos;
     ProgressBar progressBar;
     EditText search;
 
@@ -35,6 +41,16 @@ public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter
         init(savedInstanceState, this);
 
         initSearchByTags();
+        initRetryButton();
+    }
+
+    private void initRetryButton() {
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getPresenter().retry();
+            }
+        });
     }
 
     private void initSearchByTags() {
@@ -62,6 +78,7 @@ public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter
         progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
         if(show) {
             error.setVisibility(View.GONE);
+            retry.setVisibility(View.GONE);
         }
     }
 
@@ -69,25 +86,27 @@ public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter
     public void showError(String message) {
         error.setVisibility(View.VISIBLE);
         error.setText(message);
+        retry.setVisibility(View.VISIBLE);
+        photos.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void showPhotos(List<Photo> photoList) {
-        String photosStr = StringUtils.buildListWithSeparator(photoList, new StringUtils.StringMaker<Photo>() {
-            @Override
-            public String makeString(Photo item) {
-                return item.getTitle();
-            }
-        });
-        test.setVisibility(View.VISIBLE);
-        test.setText(photosStr);
+        photos.setVisibility(View.VISIBLE);
+        photos.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        photos.setLayoutManager(linearLayoutManager);
+
+        PhotosListAdapter adapter = new PhotosListAdapter(photoList);
+        photos.setAdapter(adapter);
     }
 
     @Override
     protected RetainablePresenterFactory<PhotoSearchPresenter, PhotoSearchView> providePresenterFactory() {
         return PhotoSearchPresenterFactory.getInstance(
-                Provider.provideLoadPhotosAction(),
-                Provider.provideThrowableTranslator()
+                Injector.provideLoadPhotosAction(),
+                Injector.provideThrowableTranslator()
         );
     }
 }

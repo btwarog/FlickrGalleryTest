@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import com.example.flickrgallery.base.Cancelable;
 import com.example.flickrgallery.imageloader.ImageLoader;
+import com.example.flickrgallery.util.ThreadUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +46,7 @@ public class ImageLoaderFromUrl implements ImageLoader {
                 @Override
                 public void run() {
                     try {
+                        ThreadUtils.sleep(2000);
                         InputStream inputStream = dataStreamProvider.provideInputStream(url);
                         Bitmap bitmap = bitmapDecoder.decode(inputStream);
                         if (!isCanceled()) {

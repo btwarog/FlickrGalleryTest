@@ -1,4 +1,4 @@
-package com.example.flickrgallery.base.presenterfactory;
+package com.example.flickrgallery.base.presenter;
 
 import android.os.Bundle;
 

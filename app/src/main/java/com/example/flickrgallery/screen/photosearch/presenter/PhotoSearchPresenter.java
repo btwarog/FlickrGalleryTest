@@ -1,7 +1,7 @@
 package com.example.flickrgallery.screen.photosearch.presenter;
 
-import com.example.flickrgallery.base.presenterfactory.RetainablePresenter;
-import com.example.flickrgallery.screen.photosearch.PhotoSearchView;
+import com.example.flickrgallery.base.presenter.RetainablePresenter;
+import com.example.flickrgallery.screen.photosearch.view.PhotoSearchView;
 import com.example.flickrgallery.screen.photosearch.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
 import com.example.flickrgallery.base.Cancelable;
@@ -76,6 +76,10 @@ public class PhotoSearchPresenter extends RetainablePresenter<PhotoSearchView> {
                 getView().showError(message);
             }
         });
+    }
+
+    public void retry() {
+        startLoading(state.tags);
     }
 
     static class State {

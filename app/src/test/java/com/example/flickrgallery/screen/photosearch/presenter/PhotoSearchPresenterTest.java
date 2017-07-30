@@ -1,7 +1,7 @@
 package com.example.flickrgallery.screen.photosearch.presenter;
 
 import com.example.flickrgallery.base.Cancelable;
-import com.example.flickrgallery.screen.photosearch.PhotoSearchView;
+import com.example.flickrgallery.screen.photosearch.view.PhotoSearchView;
 import com.example.flickrgallery.screen.photosearch.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
 import com.example.flickrgallery.screen.photosearch.model.Photo;

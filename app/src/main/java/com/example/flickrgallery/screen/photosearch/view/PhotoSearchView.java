@@ -1,4 +1,4 @@
-package com.example.flickrgallery.screen.photosearch;
+package com.example.flickrgallery.screen.photosearch.view;
 
 import com.example.flickrgallery.base.BaseView;
 import com.example.flickrgallery.screen.photosearch.model.Photo;

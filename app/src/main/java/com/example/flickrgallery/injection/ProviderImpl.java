@@ -10,6 +10,8 @@ import com.example.flickrgallery.screen.photosearch.action.DataInputStreamDecode
 import com.example.flickrgallery.screen.photosearch.action.DataStreamProviderForTags;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosActionImpl;
+import com.example.flickrgallery.screen.photosearch.action.PhotoUrlProvider;
+import com.example.flickrgallery.screen.photosearch.model.Photo;
 
 public class ProviderImpl implements Provider{
     @Override
@@ -25,7 +27,7 @@ public class ProviderImpl implements Provider{
         return new ThrowableTranslator() {
             @Override
             public String translateThrowable(Throwable throwable) {
-                return "fake error";
+                return throwable.getLocalizedMessage();
             }
         };
     }
@@ -42,5 +44,15 @@ public class ProviderImpl implements Provider{
         }
 
         return imageLoaderInstance;
+    }
+
+    @Override
+    public PhotoUrlProvider providePhotoUrlProvider() {
+        return new PhotoUrlProvider() {
+            @Override
+            public String getPhotoUrl(Photo photo) {
+                return photo.getMedia();
+            }
+        };
     }
 }

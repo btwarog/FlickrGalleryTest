@@ -10,6 +10,7 @@ import com.example.flickrgallery.screen.photosearch.action.DataInputStreamDecode
 import com.example.flickrgallery.screen.photosearch.action.DataStreamProviderForTags;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosActionImpl;
+import com.example.flickrgallery.screen.photosearch.action.PhotoUrlProvider;
 
 public class Injector {
 
@@ -29,5 +30,9 @@ public class Injector {
 
     public static ImageLoader provideImageLoader() {
         return provider.provideImageLoader();
+    }
+
+    public static PhotoUrlProvider providePhotoUrlProvider() {
+        return provider.providePhotoUrlProvider();
     }
 }

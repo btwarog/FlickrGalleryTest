@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.flickrgallery.base.BaseView;
-import com.example.flickrgallery.base.presenterfactory.RetainablePresenter;
-import com.example.flickrgallery.base.presenterfactory.RetainablePresenterFactory;
+import com.example.flickrgallery.base.presenter.RetainablePresenter;
+import com.example.flickrgallery.base.presenter.RetainablePresenterFactory;
 
 public abstract class RetainableActivity<T extends RetainablePresenter<V>, V extends BaseView> extends AppCompatActivity {
 
