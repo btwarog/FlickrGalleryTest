@@ -12,10 +12,12 @@ import java.util.List;
 
 public class PhotosListAdapter extends RecyclerView.Adapter<PhotoListViewHolder> {
 
+    private final OnPhotoClickedListener onPhotoClickedListener;
     protected List<Photo> photoList;
 
-    public PhotosListAdapter(List<Photo> photoList) {
+    public PhotosListAdapter(List<Photo> photoList, OnPhotoClickedListener onPhotoClickedListener) {
         this.photoList = photoList;
+        this.onPhotoClickedListener = onPhotoClickedListener;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class PhotosListAdapter extends RecyclerView.Adapter<PhotoListViewHolder>
     public PhotoListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_photo, parent, false);
-        return new PhotoListViewHolder(view);
+        return new PhotoListViewHolder(view, onPhotoClickedListener);
     }
 
     @Override

@@ -9,6 +9,6 @@ public class FlickrGalleryApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        Injector.setProvider(new ProviderImpl());
+        Injector.setProvider(new ProviderImpl(this));
     }
 }

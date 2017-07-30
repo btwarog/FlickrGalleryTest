@@ -5,7 +5,6 @@ import com.example.flickrgallery.imageloader.impl.BitmapDecoderImpl;
 import com.example.flickrgallery.imageloader.impl.DataStreamProviderImpl;
 import com.example.flickrgallery.imageloader.impl.ImageLoaderFromUrl;
 import com.example.flickrgallery.network.InputStreamProvider;
-import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.action.DataInputStreamDecoderImpl;
 import com.example.flickrgallery.screen.photosearch.action.DataStreamProviderForTags;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotoMetadataAction;
@@ -13,9 +12,12 @@ import com.example.flickrgallery.screen.photosearch.action.LoadPhotoMetadataActi
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosActionImpl;
 import com.example.flickrgallery.screen.photosearch.action.PhotoUrlProvider;
+import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
 
-public class ProviderImpl implements Provider{
+public class ProviderImpl implements Provider {
+    static ImageLoader imageLoaderInstance = null;
+
     @Override
     public LoadPhotosAction provideLoadPhotosAction() {
         return new LoadPhotosActionImpl(
@@ -39,7 +41,6 @@ public class ProviderImpl implements Provider{
         };
     }
 
-    static ImageLoader imageLoaderInstance = null;
 
     @Override
     public ImageLoader provideImageLoader() {

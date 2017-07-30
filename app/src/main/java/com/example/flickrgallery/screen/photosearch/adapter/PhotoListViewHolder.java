@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.flickrgallery.Navigator;
 import com.example.flickrgallery.R;
 import com.example.flickrgallery.injection.Injector;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
@@ -20,6 +19,7 @@ import com.example.flickrgallery.screen.photosearch.view.PhotoItemView;
 
 public class PhotoListViewHolder extends RecyclerView.ViewHolder implements PhotoItemView, View.OnClickListener {
     private final Handler handler;
+    private final OnPhotoClickedListener onPhotoClickedListener;
 
     PhotoItemPresenter presenter;
 
@@ -33,8 +33,15 @@ public class PhotoListViewHolder extends RecyclerView.ViewHolder implements Phot
     protected Button retry;
     private Photo item;
 
-    public PhotoListViewHolder(View itemView) {
+    public PhotoListViewHolder(View itemView, OnPhotoClickedListener onPhotoClickedListener) {
         super(itemView);
+        this.onPhotoClickedListener = onPhotoClickedListener;
+        handler = new Handler();
+
+        initView(itemView);
+    }
+
+    private void initView(View itemView) {
         photoView = itemView.findViewById(R.id.photo);
         itemView.setOnClickListener(this);
         progress = itemView.findViewById(R.id.progress);
@@ -50,7 +57,6 @@ public class PhotoListViewHolder extends RecyclerView.ViewHolder implements Phot
                 presenter.retry();
             }
         });
-        handler = new Handler();
     }
 
     public void setItem(Photo item) {
@@ -126,7 +132,6 @@ public class PhotoListViewHolder extends RecyclerView.ViewHolder implements Phot
 
     @Override
     public void onClick(View view) {
-        Navigator navigator = new Navigator(view.getContext());
-        navigator.openInGallery(item);
+        onPhotoClickedListener.onPhotoClicked(item);
     }
 }

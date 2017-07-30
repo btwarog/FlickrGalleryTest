@@ -9,4 +9,5 @@ public interface PhotoSearchView extends BaseView {
     void showLoading(boolean show);
     void showError(String message);
     void showPhotos(List<Photo> photoList);
+    void showFailedOpenGallery();
 }

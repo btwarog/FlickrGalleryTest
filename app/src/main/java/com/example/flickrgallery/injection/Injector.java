@@ -1,5 +1,6 @@
 package com.example.flickrgallery.injection;
 
+import com.example.flickrgallery.Navigator;
 import com.example.flickrgallery.imageloader.ImageLoader;
 import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotoMetadataAction;

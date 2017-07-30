@@ -1,24 +1,27 @@
 package com.example.flickrgallery.screen.photosearch.presenter;
 
-import com.example.flickrgallery.base.presenter.RetainablePresenter;
-import com.example.flickrgallery.screen.photosearch.view.PhotoSearchView;
-import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
-import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
+import com.example.flickrgallery.Navigator;
 import com.example.flickrgallery.base.Cancelable;
+import com.example.flickrgallery.base.presenter.RetainablePresenter;
+import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
+import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
+import com.example.flickrgallery.screen.photosearch.view.PhotoSearchView;
 
 import java.util.List;
 
 public class PhotoSearchPresenter extends RetainablePresenter<PhotoSearchView> {
     private final LoadPhotosAction loadPhotosAction;
     private final ThrowableTranslator throwableTranslator;
+    private Navigator navigator;
     protected State state = new State();
 
     private Cancelable loadPhotosCancelable;
 
     public PhotoSearchPresenter (
             LoadPhotosAction loadPhotosAction,
-            ThrowableTranslator throwableTranslator) {
+            ThrowableTranslator throwableTranslator
+    ) {
         this.loadPhotosAction = loadPhotosAction;
         this.throwableTranslator = throwableTranslator;
     }
@@ -43,6 +46,10 @@ public class PhotoSearchPresenter extends RetainablePresenter<PhotoSearchView> {
         if(loadPhotosCancelable != null) {
             loadPhotosCancelable.cancel();
         }
+    }
+
+    public void setNavigator(Navigator navigator) {
+        this.navigator = navigator;
     }
 
     public void searchForTags(String tags) {
@@ -80,6 +87,13 @@ public class PhotoSearchPresenter extends RetainablePresenter<PhotoSearchView> {
 
     public void retry() {
         startLoading(state.tags);
+    }
+
+    public void showPhotoInGallery(Photo photo) {
+        boolean success = navigator.openInGallery(photo);
+        if(!success) {
+            getView().showFailedOpenGallery();
+        }
     }
 
     static class State {

@@ -2,4 +2,5 @@
     <string name="app_name">FlickrGallery</string>
     <string name="search_by_tags">Search by tags</string>
     <string name="retry">retry</string>
+    <string name="no_gallery_app">No gallery app found</string>
 </resources>

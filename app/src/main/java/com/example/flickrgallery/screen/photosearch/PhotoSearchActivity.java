@@ -11,10 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.flickrgallery.Navigator;
 import com.example.flickrgallery.R;
 import com.example.flickrgallery.base.activity.RetainableActivity;
 import com.example.flickrgallery.base.presenter.RetainablePresenterFactory;
+import com.example.flickrgallery.screen.photosearch.adapter.OnPhotoClickedListener;
 import com.example.flickrgallery.screen.photosearch.adapter.PhotosListAdapter;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
 import com.example.flickrgallery.screen.photosearch.presenter.PhotoSearchPresenter;
@@ -25,12 +28,14 @@ import com.example.flickrgallery.util.StringUtils;
 
 import java.util.List;
 
-public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter, PhotoSearchView> implements PhotoSearchView {
+public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter, PhotoSearchView> implements PhotoSearchView, OnPhotoClickedListener {
     TextView error;
     Button retry;
     RecyclerView photos;
     ProgressBar progressBar;
     EditText search;
+
+    Navigator navigator;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +47,20 @@ public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter
 
         initSearchByTags();
         initRetryButton();
+
+        navigator = new Navigator(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPresenter().setNavigator(navigator);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getPresenter().setNavigator(null);
     }
 
     private void initRetryButton() {
@@ -98,8 +117,13 @@ public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         photos.setLayoutManager(linearLayoutManager);
 
-        PhotosListAdapter adapter = new PhotosListAdapter(photoList);
+        PhotosListAdapter adapter = new PhotosListAdapter(photoList, this);
         photos.setAdapter(adapter);
+    }
+
+    @Override
+    public void showFailedOpenGallery() {
+        Toast.makeText(this, R.string.no_gallery_app, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -108,5 +132,10 @@ public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter
                 Injector.provideLoadPhotosAction(),
                 Injector.provideThrowableTranslator()
         );
+    }
+
+    @Override
+    public void onPhotoClicked(Photo photo) {
+        getPresenter().showPhotoInGallery(photo);
     }
 }

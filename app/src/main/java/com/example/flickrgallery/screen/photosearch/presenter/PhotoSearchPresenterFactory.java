@@ -2,11 +2,12 @@ package com.example.flickrgallery.screen.photosearch.presenter;
 
 import android.os.Bundle;
 
+import com.example.flickrgallery.Navigator;
 import com.example.flickrgallery.base.presenter.RetainablePresenterFactory;
-import com.example.flickrgallery.screen.photosearch.view.PhotoSearchView;
-import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
+import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
+import com.example.flickrgallery.screen.photosearch.view.PhotoSearchView;
 import com.example.flickrgallery.util.SerializableArrayUtil;
 
 import java.io.Serializable;
@@ -14,13 +15,14 @@ import java.util.List;
 
 public class PhotoSearchPresenterFactory extends RetainablePresenterFactory<PhotoSearchPresenter, PhotoSearchView> {
 
-    private LoadPhotosAction loadPhotosAction;
-    private ThrowableTranslator throwableTranslator;
+    private final LoadPhotosAction loadPhotosAction;
+    private final ThrowableTranslator throwableTranslator;
 
-    protected PhotoSearchPresenterFactory(
+    protected PhotoSearchPresenterFactory (
             String factoryName,
             LoadPhotosAction loadPhotosAction,
-            ThrowableTranslator throwableTranslator) {
+            ThrowableTranslator throwableTranslator
+    ) {
         super(factoryName);
         this.loadPhotosAction = loadPhotosAction;
         this.throwableTranslator = throwableTranslator;
