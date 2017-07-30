@@ -29,8 +29,24 @@ public class DataInputStreamDecoderImplTest {
             e.printStackTrace();
         }
 
-        Assert.assertTrue(isExceptionThrown);
+        Assert.assertFalse(isExceptionThrown);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 20);
+    }
+
+    @Test
+    public void jsonDecodeFailsTest() {
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("json_response_failing");
+        DataInputStreamDecoderImpl dataInputStreamDecoder = new DataInputStreamDecoderImpl();
+        boolean isExceptionThrown = false;
+
+        try {
+            dataInputStreamDecoder.decode(inputStream);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            e.printStackTrace();
+        }
+
+        Assert.assertTrue(isExceptionThrown);
     }
 }

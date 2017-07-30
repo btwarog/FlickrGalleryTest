@@ -243,5 +243,10 @@ public class PhotoSearchPresenterTest {
             showPhotosCalled.set(true);
             this.photoList = photoList;
         }
+
+        @Override
+        public void showFailedOpenGallery() {
+
+        }
     }
 }
