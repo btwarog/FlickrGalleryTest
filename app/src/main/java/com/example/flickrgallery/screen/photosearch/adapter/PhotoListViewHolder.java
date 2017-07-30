@@ -31,7 +31,7 @@ public class PhotoListViewHolder extends RecyclerView.ViewHolder implements Phot
     protected TextView dateTaken;
     protected TextView datePublished;
     protected Button retry;
-    private Photo item;
+    protected Photo item;
 
     public PhotoListViewHolder(View itemView, OnPhotoClickedListener onPhotoClickedListener) {
         super(itemView);

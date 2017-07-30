@@ -14,11 +14,11 @@ public class PhotoSearchPresenter extends RetainablePresenter<PhotoSearchView> {
     private final LoadPhotosAction loadPhotosAction;
     private final ThrowableTranslator throwableTranslator;
     private Navigator navigator;
-    protected State state = new State();
+    State state = new State();
 
     private Cancelable loadPhotosCancelable;
 
-    public PhotoSearchPresenter (
+    PhotoSearchPresenter (
             LoadPhotosAction loadPhotosAction,
             ThrowableTranslator throwableTranslator
     ) {
@@ -31,7 +31,7 @@ public class PhotoSearchPresenter extends RetainablePresenter<PhotoSearchView> {
     }
 
     public void restore() {
-        if(state.isLoading == true) {
+        if(state.isLoading) {
             startLoading(state.tags);
         } else if(state.loadedPhotos != null) {
             getView().showPhotos(state.loadedPhotos);
@@ -98,8 +98,8 @@ public class PhotoSearchPresenter extends RetainablePresenter<PhotoSearchView> {
 
     static class State {
         boolean isLoading = false;
-        public String tags;
+        String tags;
         List<Photo> loadedPhotos;
-        public String errorMessage;
+        String errorMessage;
     }
 }

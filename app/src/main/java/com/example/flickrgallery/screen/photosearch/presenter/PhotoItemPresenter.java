@@ -1,16 +1,13 @@
 package com.example.flickrgallery.screen.photosearch.presenter;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.example.flickrgallery.Constants;
-import com.example.flickrgallery.Navigator;
 import com.example.flickrgallery.base.Cancelable;
 import com.example.flickrgallery.base.presenter.BasePresenter;
 import com.example.flickrgallery.imageloader.ImageLoader;
-import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotoMetadataAction;
 import com.example.flickrgallery.screen.photosearch.action.PhotoUrlProvider;
+import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
 import com.example.flickrgallery.screen.photosearch.model.PhotoMeadata;
 import com.example.flickrgallery.screen.photosearch.view.PhotoItemView;
@@ -19,16 +16,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PhotoItemPresenter extends BasePresenter<PhotoItemView> {
     private static final int ACTIONS_COUNT = 2;
-    protected Photo item;
+
+    protected Photo photoItem;
+
     private final ImageLoader imageLoader;
     private final PhotoUrlProvider photoUrlProvider;
     private final ThrowableTranslator throwableTranslator;
     private final LoadPhotoMetadataAction loadPhotoMetadataAction;
+
     private Cancelable cancelableLoadingPhoto;
     private Cancelable cancelableLoadPhotoMetadata;
     private Bitmap loadedBitmap;
     private PhotoMeadata loadedPhotoMetadata;
-    AtomicInteger lockingInt = new AtomicInteger(0);
+    private AtomicInteger lockingInt = new AtomicInteger(0);
 
     public PhotoItemPresenter(
             Photo item,
@@ -37,7 +37,7 @@ public class PhotoItemPresenter extends BasePresenter<PhotoItemView> {
             ThrowableTranslator throwableTranslator,
             LoadPhotoMetadataAction loadPhotoMetadataAction
     ) {
-        this.item = item;
+        this.photoItem = item;
         this.imageLoader = imageLoader;
         this.photoUrlProvider = photoUrlProvider;
         this.throwableTranslator = throwableTranslator;
@@ -58,11 +58,11 @@ public class PhotoItemPresenter extends BasePresenter<PhotoItemView> {
         getView().showPhotoMetadata(null);
         getView().showFailed(false, null);
         getView().showLoading(true);
-        String url = photoUrlProvider.getPhotoUrl(item);
+        String url = photoUrlProvider.getPhotoUrl(photoItem);
 
         lockingInt.set(0);
 
-        cancelableLoadPhotoMetadata = loadPhotoMetadataAction.loadPhotoMetadata(item, new LoadPhotoMetadataAction.Callback() {
+        cancelableLoadPhotoMetadata = loadPhotoMetadataAction.loadPhotoMetadata(photoItem, new LoadPhotoMetadataAction.Callback() {
             @Override
             public void onLoaded(PhotoMeadata photoMeadata) {
                 loadedPhotoMetadata = photoMeadata;

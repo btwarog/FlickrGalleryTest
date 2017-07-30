@@ -2,7 +2,6 @@ package com.example.flickrgallery.screen.photosearch.presenter;
 
 import android.os.Bundle;
 
-import com.example.flickrgallery.Navigator;
 import com.example.flickrgallery.base.presenter.RetainablePresenterFactory;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
 import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
@@ -15,10 +14,12 @@ import java.util.List;
 
 public class PhotoSearchPresenterFactory extends RetainablePresenterFactory<PhotoSearchPresenter, PhotoSearchView> {
 
+    static PhotoSearchPresenterFactory instance = null;
+
     private final LoadPhotosAction loadPhotosAction;
     private final ThrowableTranslator throwableTranslator;
 
-    protected PhotoSearchPresenterFactory (
+    private PhotoSearchPresenterFactory(
             String factoryName,
             LoadPhotosAction loadPhotosAction,
             ThrowableTranslator throwableTranslator
@@ -28,7 +29,6 @@ public class PhotoSearchPresenterFactory extends RetainablePresenterFactory<Phot
         this.throwableTranslator = throwableTranslator;
     }
 
-    static PhotoSearchPresenterFactory instance = null;
 
     public static PhotoSearchPresenterFactory getInstance(
             LoadPhotosAction loadPhotosAction,
@@ -47,11 +47,10 @@ public class PhotoSearchPresenterFactory extends RetainablePresenterFactory<Phot
 
     @Override
     protected PhotoSearchPresenter create() {
-        PhotoSearchPresenter presenter = new PhotoSearchPresenter(
+        return new PhotoSearchPresenter(
                 loadPhotosAction,
                 throwableTranslator
         );
-        return presenter;
     }
 
     @Override
@@ -61,7 +60,7 @@ public class PhotoSearchPresenterFactory extends RetainablePresenterFactory<Phot
         presenter.state.errorMessage = bundle.getString("errorMessage", null);
         presenter.state.tags = bundle.getString("tags", null);
         presenter.state.isLoading = bundle.getBoolean("isLoading", false);
-        if(bundle.containsKey("loadedPhotos")) {
+        if (bundle.containsKey("loadedPhotos")) {
             presenter.state.loadedPhotos = (List<Photo>) bundle.getSerializable("loadedPhotos");
         }
         return presenter;
@@ -73,7 +72,7 @@ public class PhotoSearchPresenterFactory extends RetainablePresenterFactory<Phot
         bundle.putString("errorMessage", presenter.state.errorMessage);
         bundle.putString("tags", presenter.state.tags);
         bundle.putBoolean("isLoading", presenter.state.isLoading);
-        if(presenter.state.loadedPhotos != null) {
+        if (presenter.state.loadedPhotos != null) {
             Serializable serializable = SerializableArrayUtil.asSerializableArrayList(presenter.state.loadedPhotos);
             bundle.putSerializable("loadedPhotos", serializable);
         }

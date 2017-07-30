@@ -5,7 +5,7 @@ import com.example.flickrgallery.base.Cancelable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ThreadUtils {
-    public static final void sleep(long millis) {
+    public static void sleep(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
@@ -13,7 +13,7 @@ public class ThreadUtils {
         }
     }
 
-    public static final Cancelable postDelayed(final Runnable runnable, final long millis) {
+    public static Cancelable postDelayed(final Runnable runnable, final long millis) {
 
         final AtomicCancelable atomicCancelable = new AtomicCancelable();
 
@@ -30,7 +30,7 @@ public class ThreadUtils {
         return atomicCancelable;
     }
 
-    static class AtomicCancelable implements Cancelable {
+    static private class AtomicCancelable implements Cancelable {
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
 
         @Override
