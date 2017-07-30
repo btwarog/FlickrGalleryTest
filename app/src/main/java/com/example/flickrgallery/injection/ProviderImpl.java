@@ -62,8 +62,13 @@ public class ProviderImpl implements Provider {
     public PhotoUrlProvider providePhotoUrlProvider() {
         return new PhotoUrlProvider() {
             @Override
-            public String getPhotoUrl(Photo photo) {
-                return photo.getMedia();
+            public String getPhotoUrl(Photo photo, Size size) {
+                if(size == Size.Thumb) {
+                    return photo.getMedia();
+                } else {
+                    String url = photo.getMedia();
+                    return url.replace("_m.jpg", "_b.jpg");
+                }
             }
         };
     }

@@ -17,6 +17,7 @@ import com.example.flickrgallery.Navigator;
 import com.example.flickrgallery.R;
 import com.example.flickrgallery.base.activity.RetainableActivity;
 import com.example.flickrgallery.base.presenter.RetainablePresenterFactory;
+import com.example.flickrgallery.injection.Provider;
 import com.example.flickrgallery.screen.photosearch.adapter.OnPhotoClickedListener;
 import com.example.flickrgallery.screen.photosearch.adapter.PhotosListAdapter;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
@@ -48,7 +49,7 @@ public class PhotoSearchActivity extends RetainableActivity<PhotoSearchPresenter
         initSearchByTags();
         initRetryButton();
 
-        navigator = new Navigator(this);
+        navigator = new Navigator(this, Injector.providePhotoUrlProvider());
     }
 
     @Override

@@ -58,7 +58,7 @@ public class PhotoItemPresenter extends BasePresenter<PhotoItemView> {
         getView().showPhotoMetadata(null);
         getView().showFailed(false, null);
         getView().showLoading(true);
-        String url = photoUrlProvider.getPhotoUrl(photoItem);
+        String url = photoUrlProvider.getPhotoUrl(photoItem, PhotoUrlProvider.Size.Thumb);
 
         lockingInt.set(0);
 
