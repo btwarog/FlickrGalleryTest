@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="errorTextColor">#F00</color>
+    <color name="metadata_bg">#88FFFFFF</color>
 </resources>

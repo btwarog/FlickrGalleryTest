@@ -37,4 +37,34 @@
         android:layout_gravity="center"
         android:visibility="gone"
         />
+
+    <LinearLayout
+        android:id="@+id/metadata_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/metadata_bg"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:layout_gravity="bottom"
+        android:padding="@dimen/metadata_padding"
+        >
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:id="@+id/date_taken"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/date_published"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
 </FrameLayout>

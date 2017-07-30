@@ -1,13 +1,15 @@
 package com.example.flickrgallery.injection;
 
 import com.example.flickrgallery.imageloader.ImageLoader;
-import com.example.flickrgallery.imageloader.network.BitmapDecoderImpl;
-import com.example.flickrgallery.imageloader.network.DataStreamProviderImpl;
-import com.example.flickrgallery.imageloader.network.ImageLoaderFromUrl;
+import com.example.flickrgallery.imageloader.impl.BitmapDecoderImpl;
+import com.example.flickrgallery.imageloader.impl.DataStreamProviderImpl;
+import com.example.flickrgallery.imageloader.impl.ImageLoaderFromUrl;
 import com.example.flickrgallery.network.InputStreamProvider;
-import com.example.flickrgallery.screen.photosearch.ThrowableTranslator;
+import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.action.DataInputStreamDecoderImpl;
 import com.example.flickrgallery.screen.photosearch.action.DataStreamProviderForTags;
+import com.example.flickrgallery.screen.photosearch.action.LoadPhotoMetadataAction;
+import com.example.flickrgallery.screen.photosearch.action.LoadPhotoMetadataActionSimpleImpl;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosActionImpl;
 import com.example.flickrgallery.screen.photosearch.action.PhotoUrlProvider;
@@ -20,6 +22,11 @@ public class ProviderImpl implements Provider{
                 new DataStreamProviderForTags(new InputStreamProvider()),
                 new DataInputStreamDecoderImpl()
         );
+    }
+
+    @Override
+    public LoadPhotoMetadataAction provideLoadPhotoMetadataAction() {
+        return new LoadPhotoMetadataActionSimpleImpl();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.flickrgallery.imageloader.network;
+package com.example.flickrgallery.imageloader.impl;
 
 import java.io.IOException;
 import java.io.InputStream;

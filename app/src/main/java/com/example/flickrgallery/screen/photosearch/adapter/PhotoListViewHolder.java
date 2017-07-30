@@ -4,18 +4,21 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.flickrgallery.Navigator;
 import com.example.flickrgallery.R;
 import com.example.flickrgallery.injection.Injector;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
+import com.example.flickrgallery.screen.photosearch.model.PhotoMeadata;
 import com.example.flickrgallery.screen.photosearch.presenter.PhotoItemPresenter;
 import com.example.flickrgallery.screen.photosearch.view.PhotoItemView;
 
-public class PhotoListViewHolder extends RecyclerView.ViewHolder implements PhotoItemView {
+public class PhotoListViewHolder extends RecyclerView.ViewHolder implements PhotoItemView, View.OnClickListener {
     private final Handler handler;
 
     PhotoItemPresenter presenter;
@@ -23,13 +26,23 @@ public class PhotoListViewHolder extends RecyclerView.ViewHolder implements Phot
     protected ImageView photoView;
     protected ProgressBar progress;
     protected TextView errorMessage;
+    protected ViewGroup metadataContainer;
+    protected TextView title;
+    protected TextView dateTaken;
+    protected TextView datePublished;
     protected Button retry;
+    private Photo item;
 
     public PhotoListViewHolder(View itemView) {
         super(itemView);
         photoView = itemView.findViewById(R.id.photo);
+        itemView.setOnClickListener(this);
         progress = itemView.findViewById(R.id.progress);
         errorMessage = itemView.findViewById(R.id.errorMessage);
+        metadataContainer = itemView.findViewById(R.id.metadata_container);
+        title = itemView.findViewById(R.id.title);
+        dateTaken = itemView.findViewById(R.id.date_taken);
+        datePublished = itemView.findViewById(R.id.date_published);
         retry = itemView.findViewById(R.id.retry);
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,11 +54,13 @@ public class PhotoListViewHolder extends RecyclerView.ViewHolder implements Phot
     }
 
     public void setItem(Photo item) {
+        this.item = item;
         this.presenter = new PhotoItemPresenter(
                 item,
                 Injector.provideImageLoader(),
                 Injector.providePhotoUrlProvider(),
-                Injector.provideThrowableTranslator()
+                Injector.provideThrowableTranslator(),
+                Injector.provideLoadPhotoMetadataAction()
         );
         this.presenter.setView(this);
     }
@@ -90,5 +105,28 @@ public class PhotoListViewHolder extends RecyclerView.ViewHolder implements Phot
                 }
             }
         });
+    }
+
+    @Override
+    public void showPhotoMetadata(final PhotoMeadata loadedPhotoMetadata) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(loadedPhotoMetadata == null) {
+                    metadataContainer.setVisibility(View.INVISIBLE);
+                } else {
+                    metadataContainer.setVisibility(View.VISIBLE);
+                    title.setText(loadedPhotoMetadata.getTitle());
+                    datePublished.setText(loadedPhotoMetadata.getPublished());
+                    dateTaken.setText(loadedPhotoMetadata.getDateTaken());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View view) {
+        Navigator navigator = new Navigator(view.getContext());
+        navigator.openInGallery(item);
     }
 }

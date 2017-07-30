@@ -1,4 +1,4 @@
-package com.example.flickrgallery.imageloader.network;
+package com.example.flickrgallery.imageloader.impl;
 
 import android.graphics.Bitmap;
 
@@ -46,7 +46,6 @@ public class ImageLoaderFromUrl implements ImageLoader {
                 @Override
                 public void run() {
                     try {
-                        ThreadUtils.sleep(2000);
                         InputStream inputStream = dataStreamProvider.provideInputStream(url);
                         Bitmap bitmap = bitmapDecoder.decode(inputStream);
                         if (!isCanceled()) {

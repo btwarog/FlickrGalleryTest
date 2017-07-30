@@ -1,15 +1,9 @@
 package com.example.flickrgallery.injection;
 
 import com.example.flickrgallery.imageloader.ImageLoader;
-import com.example.flickrgallery.imageloader.network.BitmapDecoderImpl;
-import com.example.flickrgallery.imageloader.network.DataStreamProviderImpl;
-import com.example.flickrgallery.imageloader.network.ImageLoaderFromUrl;
-import com.example.flickrgallery.network.InputStreamProvider;
-import com.example.flickrgallery.screen.photosearch.ThrowableTranslator;
-import com.example.flickrgallery.screen.photosearch.action.DataInputStreamDecoderImpl;
-import com.example.flickrgallery.screen.photosearch.action.DataStreamProviderForTags;
+import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
+import com.example.flickrgallery.screen.photosearch.action.LoadPhotoMetadataAction;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
-import com.example.flickrgallery.screen.photosearch.action.LoadPhotosActionImpl;
 import com.example.flickrgallery.screen.photosearch.action.PhotoUrlProvider;
 
 public class Injector {
@@ -22,6 +16,10 @@ public class Injector {
 
     public static LoadPhotosAction provideLoadPhotosAction() {
         return provider.provideLoadPhotosAction();
+    }
+
+    public static LoadPhotoMetadataAction provideLoadPhotoMetadataAction() {
+        return provider.provideLoadPhotoMetadataAction();
     }
 
     public static ThrowableTranslator provideThrowableTranslator() {

@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.example.flickrgallery.base.presenter.RetainablePresenterFactory;
 import com.example.flickrgallery.screen.photosearch.view.PhotoSearchView;
-import com.example.flickrgallery.screen.photosearch.ThrowableTranslator;
+import com.example.flickrgallery.screen.photosearch.action.ThrowableTranslator;
 import com.example.flickrgallery.screen.photosearch.action.LoadPhotosAction;
 import com.example.flickrgallery.screen.photosearch.model.Photo;
 import com.example.flickrgallery.util.SerializableArrayUtil;

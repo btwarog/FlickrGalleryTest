@@ -1,14 +1,10 @@
 package com.example.flickrgallery.screen.photosearch.action;
 
-import android.util.JsonReader;
-import android.util.Log;
-
 import com.example.flickrgallery.screen.photosearch.model.Photo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataInputStreamDecoderImpl implements DataInputStreamDecoder<List<Photo>> {
-    public static final String TAG = "DataInputStream";
+
     @Override
     public List<Photo> decode(InputStream inputStream) throws IOException, JSONException {
         BufferedReader streamReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
@@ -30,12 +26,12 @@ public class DataInputStreamDecoderImpl implements DataInputStreamDecoder<List<P
 
         String jsonString = responseStrBuilder.toString();
         int start = "jsonFlickrFeed(".length();
-        String fixedJsonString = jsonString.substring(start, jsonString.length()-1);
+        String fixedJsonString = jsonString.substring(start, jsonString.length() - 1);
         JSONObject jsonObject = new JSONObject(fixedJsonString);
 
         JSONArray itemsArray = jsonObject.getJSONArray("items");
         List<Photo> result = new ArrayList<>(itemsArray.length());
-        for (int i = 0 ; i < itemsArray.length(); i++) {
+        for (int i = 0; i < itemsArray.length(); i++) {
             JSONObject arrayElement = itemsArray.getJSONObject(i);
             Photo photo = getPhotoFromJsonObject(arrayElement);
             result.add(photo);

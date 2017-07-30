@@ -1,4 +1,4 @@
-package com.example.flickrgallery.imageloader.network;
+package com.example.flickrgallery.imageloader.impl;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
